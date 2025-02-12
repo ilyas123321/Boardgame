@@ -63,7 +63,31 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{secrets.SONAR_HOST_URL }}
-        
+
+
+    - name: Setup QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Setup Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Docker Image
+      run: |
+        docker build -t ilyas123321/boardgame:latest .
+
+    - name: Trivy Image Scan
+      run: |
+        trivy image --format table -o trivy-image-report.html ilyas123321/boardgame:latest
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Push Docker Image
+      run: |
+        docker push ilyas123321/boardgame:latest
 
 
         
