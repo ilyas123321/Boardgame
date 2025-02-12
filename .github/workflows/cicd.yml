@@ -43,7 +43,8 @@ jobs:
         name: trivy-fs-report
         path: trivy-results/trivy-fs-report.txt
         retention-days: 7    
-        
+    - name: install jq  
+      run: sudo apt-get update && sudo apt-get install -y jq
     - name: SonarQube Scan
       uses: sonarsource/sonarqube-scan-action@master
       env:
