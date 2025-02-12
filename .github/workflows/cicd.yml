@@ -17,6 +17,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
+        check-latest: false
+        server-id: github
+        settings-path: ${{ github.workspace }}
+        overwrite-settings: false
         
     - name: Build with Maven
       run: mvn package --file pom.xml
