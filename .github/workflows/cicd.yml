@@ -32,4 +32,16 @@ jobs:
         path: target/*.jar  # Path to the directory or file to upload
         retention-days: 7  # Keep the artifact for 7 days (default is 90)
 
+    - name: Run Trivy FS Scan
+      run: |
+        mkdir -p trivy-results
+        trivy fs --exit-code 0 --format table --output trivy-results/trivy-fs-report.txt .
+
+    - name: Upload Trivy Scan Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: trivy-fs-report
+        path: trivy-results/trivy-fs-report.txt
+        retention-days: 7    
+
    
